@@ -1,6 +1,6 @@
 import React from "react";
-import "./app.css";
-import Banner from "./components/banner.tsx";
+import "./App.css";
+import Banner from "./components/banner";
 
 const App: React.FC = () => {
   return (

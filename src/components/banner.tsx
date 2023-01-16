@@ -1,13 +1,13 @@
 import React from "react";
 import "./banner.css";
 interface Props {
-  message: string;
+  handleClick: () => void;
 }
 
-const Banner: React.FC<Props> = ({ message }) => {
+const Banner: React.FC<Props> = ({ handleClick }) => {
   return (
     <div className="banner">
-      <button>Hi</button>
+      <button onClick={handleClick}>Mint NFT</button>
     </div>
   );
 };

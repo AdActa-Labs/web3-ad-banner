@@ -6,6 +6,7 @@ import MintAdNFT from "./artifacts/contracts/MintAdNFT.sol/MintAdNFT.json";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Input, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap";
+import LandingPage from "components/landing";
 
 // Might need to change this per deployment
 const contractAddress = "0xd786e5a610a77A45732f30c081B3c8CCf0c43A00";
@@ -118,11 +119,15 @@ const App: React.FC = () => {
   return (
     <>
       <div className="app">
-        <Banner
+        <h1>Sandbox Landing Page</h1>
+        <br />
+        <LandingPage
           handleClick={mintToken}
           referrer={referrer}
           selectedFile={selectedFile}
         />
+        <br />
+        <h1>Publisher Tools</h1>
         <form onSubmit={uploadClick} className="upload-form">
           <div className="upload-form__input-container">
             <input

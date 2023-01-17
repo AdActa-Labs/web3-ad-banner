@@ -1,0 +1,32 @@
+.landing-page {
+    background-image: url('./bulls.png');
+    background-size: cover;
+}
+.text-white {
+    color: black;
+}
+
+@media screen and (min-width: 768px)
+{
+.jumbotron {
+    padding-bottom: 48px;
+    padding-top: 48px;
+}
+}
+
+.jumbotron {
+  background-color: rgba(238,238,238,0.8);
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-bottom: 30px;
+}
+
+.tutorial-section {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 50px 0;
+    margin-top: 50px;
+}
+
+.banner {
+    margin: auto;
+}

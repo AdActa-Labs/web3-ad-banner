@@ -1,21 +1,23 @@
+import { useState } from "react";
 import React from "react";
 import "./banner.css";
 interface Props {
-  handleClick: () => void;
+  handleClick: (referrer: string) => void;
 }
 
-const LOCAL_CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-
-const Banner: React.FC<Props> = ({ handleClick }) => {
-  const mintToken = async () => {};
+const Banner: React.FC<Props> = (props: Props) => {
+  const { handleClick } = props;
+  const [referrer, setReferrer] = useState("");
   return (
     <div className="banner">
       <input
         type="text"
         name="referral"
         placeholder="Referral Reward Destination"
+        value={referrer}
+        onChange={(s) => setReferrer(s.target.value)}
       />
-      <button onClick={mintToken}>Mint NFT</button>
+      <button onClick={(_) => handleClick(referrer)}>Mint NFT</button>
     </div>
   );
 };

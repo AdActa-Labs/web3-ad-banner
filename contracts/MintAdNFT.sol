@@ -25,39 +25,43 @@ contract MintAdNFT is ERC721, ERC721URIStorage, Ownable {
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
-        existingURIs[uri] = 1;
+        existingURIs[uri] += 1;
     }
 
     // The following functions are overrides required by Solidity.
 
-    function _burn(
-        uint256 tokenId
-    ) internal override(ERC721, ERC721URIStorage) {
+    function _burn(uint256 tokenId)
+        internal
+        override(ERC721, ERC721URIStorage)
+    {
         super._burn(tokenId);
     }
 
-    function tokenURI(
-        uint256 tokenId
-    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
         return super.tokenURI(tokenId);
     }
 
     function isContentOwned(string memory uri) public view returns (bool) {
-        return existingURIs[uri] == 1;
+        return existingURIs[uri] > 0;
     }
 
-    //TODO: Change to allow minting of the same NFT.
-    // Discussion: Should we change this to air drop the NFT to the user instead?
     function payToMint(
         address recipient,
+        address referrer,
         string memory metadataURI
     ) public payable returns (uint256) {
-        require(existingURIs[metadataURI] != 1, "NFT already minted!");
-        require(msg.value >= 0.005 ether, "Insufficient amount sent");
+        require(msg.value >= 0.05 ether, "Insufficient amount sent");
+
+        payable(referrer).transfer(msg.value / 20);
 
         uint256 newItemId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        existingURIs[metadataURI] = 1;
+        existingURIs[metadataURI] += 1;
 
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, metadataURI);

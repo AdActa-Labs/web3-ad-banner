@@ -114,17 +114,6 @@ const App: React.FC = () => {
           referrer={referrer}
           selectedFile={selectedFile}
         />
-        <div className="publisher-entry">
-          <h3>Publisher Address</h3>
-          <Input
-            type="text"
-            className="publisher-field"
-            name="referral"
-            placeholder="Referral Reward Destination"
-            value={referrer}
-            onChange={(event: any) => setReferrer(event.target.value)}
-          />
-        </div>
         <form onSubmit={uploadClick} className="upload-form">
           <div className="upload-form__input-container">
             <input
@@ -138,6 +127,18 @@ const App: React.FC = () => {
             </button>
           </div>
         </form>
+
+        <div className="publisher-entry">
+          <h3>Publisher Address</h3>
+          <Input
+            type="text"
+            className="publisher-field"
+            name="referral"
+            placeholder="Referral Reward Destination"
+            value={referrer}
+            onChange={(event: any) => setReferrer(event.target.value)}
+          />
+        </div>
       </div>
     </>
   );

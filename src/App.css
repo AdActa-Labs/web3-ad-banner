@@ -5,19 +5,21 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .publisher-entry {
-  margin: 1rem;
+  margin: 2px;
   display: flex;
   justify-content: flex-start;
+  width: 50%;
 }
 
 .publisher-field {
- margin-left: 1rem;
- background-color: blue;
- color: white;
- width: 620px
+  margin-left: 1rem;
+  color: black;
+  width: 50%;
+  font-size: 20px;
 }
 
 .upload-form {

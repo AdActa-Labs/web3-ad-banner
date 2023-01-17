@@ -46,15 +46,15 @@ const App: React.FC = () => {
   const uploadClick = async (event: { preventDefault: () => void }) => {
     event?.preventDefault();
     if (selectedFile) {
-      console.log("starting upload");
+      console.log("starting upload of image");
       try {
-        const formData = new FormData();
-        formData.append("file", selectedFile);
+        const imageFormData = new FormData();
+        imageFormData.append("file", selectedFile);
 
         const resFile = await axios({
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
+          data: imageFormData,
           headers: {
             pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
             pinata_secret_api_key: `${process.env.REACT_APP_PINATA_SECRET_API_KEY}`,
@@ -62,10 +62,41 @@ const App: React.FC = () => {
           },
         });
 
-        const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
-        console.log(ImgHash);
-        setIpfsHash(resFile.data.IpfsHash);
-        //Take a look at your Pinata Pinned section, you will see a new file added to you list.
+        const imgHash = `ipfs://${resFile.data.IpfsHash}`;
+        console.log(imgHash);
+        // Create metadata IPFS now
+        console.log("starting upload of metadata");
+        const metadataJson = {
+          description: "A NFT that can be minted without leaving the page",
+          image: `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`,
+          name: "MintAdNFT",
+          attributes: [
+            {
+              trait_type: "Enthusiasm",
+              value: "Mooning",
+            },
+            {
+              display_type: "lead_generation",
+              trait_type: "Enthusiasm",
+              value: 9001,
+            },
+          ],
+        };
+
+        const resJsonFile = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+          data: JSON.stringify(metadataJson),
+          headers: {
+            pinata_api_key: "bea10982476eadb16b93",
+            pinata_secret_api_key:
+              "b64ea6f8ea37c0cf035057f2141a7c774e05a2e2507e484e9d5f1d739104615f",
+            "Content-Type": "application/json",
+          },
+        });
+        console.log("finished metadata upload", resJsonFile.data.IpfsHash);
+
+        setIpfsHash(resJsonFile.data.IpfsHash);
       } catch (error) {
         console.log("Error sending File to IPFS: ");
         console.log(error);

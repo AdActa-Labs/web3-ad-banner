@@ -8,11 +8,11 @@
   background-repeat: no-repeat;
   display: flex;
   justify-content: flex-end;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .banner button {
-  background-color: blue;
+  background-color: rgb(64, 246, 9);
   color: white;
   padding: 10px 10px;
   border-radius: 5px;
@@ -22,6 +22,7 @@
   cursor: pointer;
   width: 90px;
   height: 45px;
+  border: 1px solid black;
 }
 
 .banner button:hover {

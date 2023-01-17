@@ -18,8 +18,6 @@ const contract = new ethers.Contract(contractAddress, MintAdNFT.abi, signer);
 
 const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [ipfsHash, setIpfsHash] = useState<string | null>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const metadataURI =
     "https://gateway.pinata.cloud/ipfs/QmYMYxUvKTkYeXrDudoLeDQbhyPoS14axthyQG3eVUyyyX?_gl=1*946rra*_ga*MTA0MzUwOTI0My4xNjczODk5Mzc4*_ga_5RMPXG14TE*MTY3Mzg5OTM3Ny4xLjEuMTY3MzkwMDE1Mi4xOS4wLjA.";
@@ -72,7 +70,7 @@ const App: React.FC = () => {
   return (
     <>
       <div className="app">
-        <Banner handleClick={mintToken} />
+        <Banner handleClick={mintToken} selectedFile={selectedFile} />
         <form onSubmit={uploadClick} className="upload-form">
           <div className="upload-form__input-container">
             <input

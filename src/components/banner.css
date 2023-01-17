@@ -4,8 +4,7 @@
   height: 150px;
   border: 1px solid black;
   padding: 10px;
-  background-image: url(../css.jpeg);
-  background-size: 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   display: flex;
   justify-content: flex-end;

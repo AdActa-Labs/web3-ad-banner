@@ -4,13 +4,13 @@ import Banner from "./components/banner";
 import { ethers } from "ethers";
 import MintAdNFT from "./artifacts/contracts/MintAdNFT.sol/MintAdNFT.json";
 import axios from "axios";
-import { Input } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Input, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap";
 
 // Might need to change this per deployment
 const contractAddress = "0xd786e5a610a77A45732f30c081B3c8CCf0c43A00";
 const metadataURIRoute = "https://gateway.pinata.cloud/ipfs/";
-const defaultIpfsHash =
-  "QmYMYxUvKTkYeXrDudoLeDQbhyPoS14axthyQG3eVUyyyX?_gl=1*946rra*_ga*MTA0MzUwOTI0My4xNjczODk5Mzc4*_ga_5RMPXG14TE*MTY3Mzg5OTM3Ny4xLjEuMTY3MzkwMDE1Mi4xOS4wLjA.";
+const defaultIpfsHash = "QmRNczmdyRGHPiMmiDjEZbiv6hKTmVeNcPNqkE1LiaKrTi";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -24,6 +24,10 @@ const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [referrer, setReferrer] = useState("");
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [mintSuccess, setMintSuccess] = useState(false);
+  const [mintError, setMintError] = useState(false);
+  const [resultHash, setResultHash] = useState("");
 
   // Function to mint token
   const mintToken = async (referrer: string) => {
@@ -36,10 +40,16 @@ const App: React.FC = () => {
     const result = await contract.payToMint(addr, referrer, metadataURI, {
       value: ethers.utils.parseEther("0.05"),
     });
+    setPopupOpen(true);
+    try {
+      await result.wait();
+      setResultHash(result.hash);
+      setMintSuccess(true);
+    } catch (e) {
+      setMintError(true);
+    }
 
-    await result.wait();
-
-    console.log("Minted NFT with transaction: ", result.hash);
+    console.log("Minted NFT with transaction: ", result, result.hash);
   };
 
   // Function to upload file to IPFS
@@ -139,6 +149,27 @@ const App: React.FC = () => {
             onChange={(event: any) => setReferrer(event.target.value)}
           />
         </div>
+
+        <Modal isOpen={popupOpen} toggle={() => setPopupOpen(false)}>
+          <ModalHeader>Minting NFT</ModalHeader>
+          <ModalBody>
+            {mintSuccess ? (
+              <div>
+                NFT minted successfully!&nbsp;
+                <a href={`https://goerli.etherscan.io/tx/${resultHash}`}>
+                  Click to view NFT Here.
+                </a>
+              </div>
+            ) : mintError ? (
+              <div>Error minting NFT</div>
+            ) : (
+              <div>
+                Processing...
+                <Spinner />
+              </div>
+            )}
+          </ModalBody>
+        </Modal>
       </div>
     </>
   );

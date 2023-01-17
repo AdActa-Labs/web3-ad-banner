@@ -3,12 +3,12 @@ import React from "react";
 import "./banner.css";
 interface Props {
   handleClick: (referrer: string) => void;
+  referrer: string;
   selectedFile: File | null;
 }
 
 const Banner: React.FC<Props> = (props: Props) => {
-  const { handleClick, selectedFile } = props;
-  const [referrer, setReferrer] = useState("");
+  const { handleClick, referrer, selectedFile } = props;
 
   let backgroundImageURL = null;
   if (selectedFile) {
@@ -25,13 +25,6 @@ const Banner: React.FC<Props> = (props: Props) => {
           : `url(${defaultImageURL})`,
       }}
     >
-      <input
-        type="text"
-        name="referral"
-        placeholder="Referral Reward Destination"
-        value={referrer}
-        onChange={(s) => setReferrer(s.target.value)}
-      />
       <button onClick={(_) => handleClick(referrer)}>Mint NFT</button>
     </div>
   );

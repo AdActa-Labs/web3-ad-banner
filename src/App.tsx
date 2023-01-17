@@ -109,7 +109,11 @@ const App: React.FC = () => {
   return (
     <>
       <div className="app">
-        <Banner handleClick={mintToken} referrer={referrer} />
+        <Banner
+          handleClick={mintToken}
+          referrer={referrer}
+          selectedFile={selectedFile}
+        />
         <div className="publisher-entry">
           <h3>Publisher Address</h3>
           <Input

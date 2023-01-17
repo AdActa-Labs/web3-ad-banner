@@ -1,9 +1,15 @@
 .banner {
   text-align: center;
   width: 50%;
-  height: 100px;
+  height: 150px;
   border: 1px solid black;
   padding: 10px;
+  background-image: url(../css.jpeg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
 }
 
 .banner button {
@@ -11,11 +17,12 @@
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 16px;
+  text-align: center;
   border: none;
   cursor: pointer;
-  width: 180px;
-  height: 90px;
+  width: 90px;
+  height: 45px;
 }
 
 .banner button:hover {

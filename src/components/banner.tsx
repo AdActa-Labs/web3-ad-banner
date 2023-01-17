@@ -1,13 +1,23 @@
+import { useState } from "react";
 import React from "react";
 import "./banner.css";
 interface Props {
-  handleClick: () => void;
+  handleClick: (referrer: string) => void;
 }
 
-const Banner: React.FC<Props> = ({ handleClick }) => {
+const Banner: React.FC<Props> = (props: Props) => {
+  const { handleClick } = props;
+  const [referrer, setReferrer] = useState("");
   return (
     <div className="banner">
-      <button onClick={handleClick}>Mint NFT</button>
+      <input
+        type="text"
+        name="referral"
+        placeholder="Referral Reward Destination"
+        value={referrer}
+        onChange={(s) => setReferrer(s.target.value)}
+      />
+      <button onClick={(_) => handleClick(referrer)}>Mint NFT</button>
     </div>
   );
 };

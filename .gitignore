@@ -12,6 +12,7 @@ artifacts
 
 node_modules
 .env
+.vscode
 coverage
 coverage.json
 typechain

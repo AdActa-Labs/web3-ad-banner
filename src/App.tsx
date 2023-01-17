@@ -4,9 +4,13 @@ import Banner from "./components/banner";
 import { ethers } from "ethers";
 import MintAdNFT from "./artifacts/contracts/MintAdNFT.sol/MintAdNFT.json";
 import axios from "axios";
+import { Input } from "reactstrap";
 
 // Might need to change this per deployment
-const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const contractAddress = "0xd786e5a610a77A45732f30c081B3c8CCf0c43A00";
+const metadataURIRoute = "https://gateway.pinata.cloud/ipfs/";
+const defaultIpfsHash =
+  "QmYMYxUvKTkYeXrDudoLeDQbhyPoS14axthyQG3eVUyyyX?_gl=1*946rra*_ga*MTA0MzUwOTI0My4xNjczODk5Mzc4*_ga_5RMPXG14TE*MTY3Mzg5OTM3Ny4xLjEuMTY3MzkwMDE1Mi4xOS4wLjA.";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -19,15 +23,16 @@ const contract = new ethers.Contract(contractAddress, MintAdNFT.abi, signer);
 const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [referrer, setReferrer] = useState("");
 
-  const metadataURI =
-    "https://gateway.pinata.cloud/ipfs/QmYMYxUvKTkYeXrDudoLeDQbhyPoS14axthyQG3eVUyyyX?_gl=1*946rra*_ga*MTA0MzUwOTI0My4xNjczODk5Mzc4*_ga_5RMPXG14TE*MTY3Mzg5OTM3Ny4xLjEuMTY3MzkwMDE1Mi4xOS4wLjA.";
   // Function to mint token
   const mintToken = async (referrer: string) => {
     const connection = contract.connect(signer);
     const addr = connection.address;
     console.log("signer is %s", signer._address);
+    const metadataURI = metadataURIRoute + (ipfsHash ?? defaultIpfsHash);
+    console.log("ipfs link is %s", metadataURI);
+
     const result = await contract.payToMint(addr, referrer, metadataURI, {
       value: ethers.utils.parseEther("0.05"),
     });
@@ -59,6 +64,7 @@ const App: React.FC = () => {
 
         const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
         console.log(ImgHash);
+        setIpfsHash(resFile.data.IpfsHash);
         //Take a look at your Pinata Pinned section, you will see a new file added to you list.
       } catch (error) {
         console.log("Error sending File to IPFS: ");
@@ -72,7 +78,18 @@ const App: React.FC = () => {
   return (
     <>
       <div className="app">
-        <Banner handleClick={mintToken} />
+        <Banner handleClick={mintToken} referrer={referrer} />
+        <div className="publisher-entry">
+          <h3>Publisher Address</h3>
+          <Input
+            type="text"
+            className="publisher-field"
+            name="referral"
+            placeholder="Referral Reward Destination"
+            value={referrer}
+            onChange={(event: any) => setReferrer(event.target.value)}
+          />
+        </div>
         <form onSubmit={uploadClick} className="upload-form">
           <div className="upload-form__input-container">
             <input

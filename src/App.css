@@ -7,6 +7,19 @@
   height: 100vh;
 }
 
+.publisher-entry {
+  margin: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.publisher-field {
+ margin-left: 1rem;
+ background-color: blue;
+ color: white;
+ width: 620px
+}
+
 .upload-form {
   display: flex;
   flex-direction: column;

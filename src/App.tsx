@@ -98,9 +98,8 @@ const App: React.FC = () => {
           url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
           data: JSON.stringify(metadataJson),
           headers: {
-            pinata_api_key: "bea10982476eadb16b93",
-            pinata_secret_api_key:
-              "b64ea6f8ea37c0cf035057f2141a7c774e05a2e2507e484e9d5f1d739104615f",
+            pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
+            pinata_secret_api_key: `${process.env.REACT_APP_PINATA_SECRET_API_KEY}`,
             "Content-Type": "application/json",
           },
         });

@@ -35,11 +35,11 @@ const App: React.FC = () => {
   const mintToken = async (referrer: string) => {
     const connection = contract.connect(signer);
     const addr = connection.address;
-    console.log("signer is %s", signer._address);
+    console.log("signer is %s", await signer.getAddress());
     const metadataURI = metadataURIRoute + (ipfsHash ?? defaultIpfsHash);
     console.log("ipfs link is %s", metadataURI);
 
-    const result = await contract.payToMint(addr, referrer, metadataURI, {
+    const result = await contract.payToMint(await signer.getAddress(), referrer, metadataURI, {
       value: ethers.utils.parseEther("0.05"),
     });
     setPopupOpen(true);
